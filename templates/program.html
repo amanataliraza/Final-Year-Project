@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Program Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #555;
+            margin-top: 0;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-container button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        nav a:hover {
+            background-color: #e0e0e0;
+        }
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #333;
+        }
+
+        .nav-link:hover {
+            background-color: #555;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Program Page</h1>
+
+    <div class="form-container">
+    <form action="{{ url_for('program') }}" method="POST" id="program_form">
+        <label for="input_data">Input Data:</label>
+        <input type="text" id="input_data" name="input_data">
+
+        <label for="file_upload">Upload File:</label>
+        <div>
+            <input type="file" id="file_upload" name="file_upload" style="display: none;">
+            <button type="button" id="upload_button">Select File</button>
+            <span id="selected_file"></span>
+        </div>
+
+        <button type="submit" id="run_button" disabled>Run Program</button>
+    </form>
+</div>
+    <nav>
+
+         <ul class="nav-list">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('program') }}">Program Page</a></li>
+            </ul>
+    </nav>
+    <script>
+    document.getElementById("upload_button").addEventListener("click", function() {
+        document.getElementById("file_upload").click();
+    });
+
+    document.getElementById("file_upload").addEventListener("change", function(event) {
+        var file = event.target.files[0];
+        if (file) {
+            var fileName = file.name;
+            var fileExtension = fileName.split('.').pop().toLowerCase();
+            if (fileExtension === "gz") {
+                document.getElementById("selected_file").textContent = "Selected File: " + fileName;
+                document.getElementById("input_data").disabled = true;
+               document.getElementById("run_button").disabled = false;
+            } else {
+                document.getElementById("selected_file").textContent = ""; // Clear the selected file
+                document.getElementById("input_data").disabled = false; // Enable input field
+                document.getElementById("run_button").disabled = true; // Disable the button
+                alert("Incorrect file format. Please select a file with the .gz extension."); // Display pop-up message
+            }
+        }
+    });
+
+    document.getElementById("input_data").addEventListener("input", function(event) {
+        var input = event.target.value.toLowerCase();
+        if (input.length >= 6 && input.startsWith("ge")) {
+            var numbers = input.substring(2);
+            if (/^\d+$/.test(numbers)) {
+                if (input == "ge48334" || input == "ge94339") {
+                    event.preventDefault(); // Prevents the form submission
+                    alert("This dataset doesn't exist."); // Display a pop-up message
+                    document.getElementById("run_button").disabled = true; // Disable run button
+                } else {
+                    document.getElementById("run_button").disabled = false; // Enable run button
+                }
+                document.getElementById("file_upload").disabled = true; // Disable file upload
+            } else {
+                document.getElementById("run_button").disabled = true; // Disable run button
+                document.getElementById("file_upload").disabled = false; // Enable file upload
+            }
+        } else {
+            document.getElementById("run_button").disabled = true; // Disable run button
+            document.getElementById("file_upload").disabled = false; // Enable file upload
+        }
+    });
+</script>
+    <footer>
+        <p>&copy; 2024 Fibromyalgia Prediction Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>

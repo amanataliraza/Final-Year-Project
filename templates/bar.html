@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bar Plot</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .container {
+            padding: 20px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .graph-bar {
+            max-width: 300px;
+            height: auto;
+        }
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        nav a:hover {
+            background-color: #e0e0e0;
+        }
+
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #333;
+        }
+
+        .nav-link:hover {
+            background-color: #555;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+    </head>
+    <body>
+        <h1>Bar Plot</h1>
+        <p>The bar plot visually represents specific metrics or data points in a categorical format. It is useful for comparing and presenting different values or categories. It allows  us to compare the accuracy achieved by the model across various conditions, such as different datasets, subsets, or configurations.
+</p>
+    <div class="container">
+        <img class="graph" src="data:image/png;base64,{{ image_base64 }}" alt="Bar Plot">
+    </div>
+     <nav>
+        <ul class="nav-list">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('prc') }}">PRC</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('roc') }}">ROC</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('trainval') }}">Training & Validation</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('visualization') }}">Visualization</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('performance') }}">Performance Metrics</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" onclick="downloadImage(); return false;">Download Image</a></li>
+        </ul>
+    </nav>
+    <footer>
+        <p>&copy; 2024 Fibromyalgia Prediction Project. All rights reserved.</p>
+    </footer>
+    <script>
+        function downloadImage() {
+            var link = document.createElement('a');
+            link.href = "data:image/png;base64,{{ image_base64 }}";
+            link.download = 'bar_plot.png';
+            link.click();
+        }
+    </script>
+</body>
+</html>

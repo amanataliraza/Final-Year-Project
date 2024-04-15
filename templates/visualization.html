@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Visualization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #555;
+            margin-top: 0;
+        }
+
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        nav a:hover {
+            background-color: #e0e0e0;
+        }
+
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #333;
+        }
+
+        .nav-link:hover {
+            background-color: #555;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Visualization</h1>
+    <p>
+        In this page, you can view the model in a virtualized representation. You can navigate through the different presentation format of the model that includes ROC, PRC, Bar plot and training and validation graphs to get more insight about the project and its machine learning model.
+    </p>
+    <nav>
+            <ul class="nav-list">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('faq') }}">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('trainval') }}">Training & Validation</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('prc') }}">PRC</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('roc') }}">ROC</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('bar') }}">Bar Plot</a></li>
+                     <li class="nav-item"><a class="nav-link" href="{{ url_for('performance') }}">Performance Metrics</a></li>
+            </ul>
+        </nav>
+     <footer>
+        <p>&copy; 2024 Fibromyalgia Prediction Project. All rights reserved.</p>
+    </footer>
+</body>
+</html>

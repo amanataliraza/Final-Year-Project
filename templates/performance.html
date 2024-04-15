@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Performance Metrics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #555;
+            margin-top: 0;
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        table {
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #eee;
+            font-weight: bold;
+        }
+        .metric {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+
+        .metric-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .metric-explanation {
+            font-size: 15px;
+            color: #333;
+        }
+        nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #333;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        nav a:hover {
+            background-color: #e0e0e0;
+        }
+
+        .nav-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #333;
+        }
+
+        .nav-link:hover {
+            background-color: #555;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Performance Metrics</h1>
+    <div class="metric">
+        <span class="metric-label">Accuracy:</span>
+        <span>{{ accuracy }}</span>
+        <br>
+        <span class="metric-explanation">The proportion of correctly classified instances.</span>
+    </div>
+
+    <div class="metric">
+        <span class="metric-label">Precision:</span>
+        <span>{{ precision }}</span>
+        <br>
+        <span class="metric-explanation">The proportion of true positive predictions out of all positive predictions.</span>
+    </div>
+
+    <div class="metric">
+        <span class="metric-label">Sensitivity (Recall):</span>
+        <span>{{ sensitivity }}</span>
+        <br>
+        <span class="metric-explanation">The proportion of true positive predictions out of all actual positive instances.</span>
+    </div>
+
+    <div class="metric">
+        <span class="metric-label">F1 Score:</span>
+        <span>{{ f1 }}</span>
+        <br>
+        <span class="metric-explanation">The harmonic mean of precision and sensitivity.</span>
+    </div>
+
+    <div class="metric">
+        <span class="metric-label">Log Loss:</span>
+        <span>{{ logloss }}</span>
+        <br>
+        <span class="metric-explanation">The logarithmic loss of the predicted probabilities</span>
+    </div>
+    <div class="metric">
+        <span class="metric-label">Confusion Matrix:</span>
+        <span class="metric-explanation">A table showing the performance of a classification model by comparing predicted and actual labels.</span>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                {% for label in cm_labels %}
+                    <th>{{ label }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in cm %}
+                <tr>
+                    {% for elem in row %}
+                        <td>{{ elem }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+     <nav>
+            <ul class="nav-list">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('faq') }}">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('visualization') }}">Visualization</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="downloadVariables(); return false;">Download Image</a></li>
+            </ul>
+        </nav>
+    <footer>
+        <p>&copy; 2024 Fibromyalgia Prediction Project. All rights reserved.</p>
+    </footer>
+    <script>
+    function downloadVariables() {
+        var variables = {
+            accuracy: "{{ accuracy }}",
+            precision: "{{ precision }}",
+            sensitivity: "{{ sensitivity }}",
+            f1: "{{ f1 }}",
+            logloss: "{{ logloss }}",
+            cm: "{{ cm|join(',') }}"
+        };
+
+        var content = '';
+        for (var key in variables) {
+            content += key + ': ' + variables[key] + '\n';
+        }
+
+        var link = document.createElement('a');
+        link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(content);
+        link.download = 'performance_metrics.txt';
+        link.click();
+    }
+</script>
+</body>
+</html>
